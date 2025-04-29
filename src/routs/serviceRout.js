@@ -16,3 +16,4 @@ router.delete('/:id', authMiddleware, (req, res, next) => { // דוגמה לשי
 }, serviceCtrl.deleteService);
 
 module.exports = router;
+
