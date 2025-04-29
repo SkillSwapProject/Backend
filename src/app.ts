@@ -2,10 +2,10 @@ import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
 
 const app = express();
-const port = 3000;
+const port = 8080;
 
 // חיבור למונגוDB
-mongoose.connect('mongodb://localhost:27017/mydb')
+mongoose.connect('mongodb://localhost:27017/skill-swap-db')
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.log('Error connecting to MongoDB:', err));
 

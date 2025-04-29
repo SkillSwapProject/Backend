@@ -20,33 +20,31 @@ service.postNew('/services', (req, res) => {
   };
 
   services.push(newService);
-
-  res.status(201).json(newService); // 201 - נוצר בהצלחה
+  res.status(201).json(newService);
 });
 
 //קבלת רשימת כל השירותים
-service.getAll = async(req, res)=> {
+service.getAll = async (req, res) => {
   try {
-      
-      let data = await serviceModel.find({})
-      res.status(200).json(data)
+    let data = await serviceModel.find({})
+    res.status(200).json(data)
   } catch (error) {
-      console.log(error)
-      res.status(500)
-      res.send("<h1>error</h1>")
+    console.log(error)
+    res.status(500)
+    res.send("<h1>error</h1>")
   }
- 
+
 }
 
 //קבלת פרטי שירות לפי מזהה
-service.getbyid = async(req, res)=> {
+service.getbyid = async (req, res) => {
   let name = req.params.id
   try {
-      let cat = await serviceModel.find({id:name})
-      res.json(cat)
+    let cat = await serviceModel.find({ id: name })
+    res.json(cat)
   } catch (error) {
-      res.status(500)
-      res.send("<h1>error</h1>")
+    res.status(500)
+    res.send("<h1>error</h1>")
   }
 }
 //עדכון שרות לפי שם
@@ -57,11 +55,8 @@ service.updateservice = async (req, res) => {
     if (!service) {
       return res.status(404).json({ message: 'Task not found' });
     }
-
-  
     const userIdFromAuth = req.userId;
 
-    // בדיקה שהמשתמש המנסה לעדכן הוא בעל המשימה
     if (service.ownerId !== userIdFromAuth) {
       return res.status(403).json({ message: 'Unauthorized: You are not the owner of this task' });
     }
@@ -72,7 +67,6 @@ service.updateservice = async (req, res) => {
       req.body,
       { new: true }
     );
-
     res.json(updateservice);
   } catch (err) {
     console.error(err);
@@ -97,7 +91,6 @@ service.deleteservice = async (req, res) => {
       return res.status(403).json({ message: 'Unauthorized: You are not the owner of this task' });
     }
 
-    // אם הבדיקה עברה, ניתן למחוק את המשימה
     const deleteservice = await service.findOneAndDelete({ code: req.params.code });
 
     if (!deleteservice) {
@@ -120,10 +113,9 @@ const users = {
   1: { id: 1, name: 'John Doe', email: 'john.doe@example.com' },
   2: { id: 2, name: 'Jane Smith', email: 'jane.smith@example.com' },
 };
-
-// מידלוור לאימות משתמשים (לדוגמה)
+(לדוגמה)
 function authenticateUser(req, res, next) {
- 
+
   req.userId = 1;
   next();
 }
