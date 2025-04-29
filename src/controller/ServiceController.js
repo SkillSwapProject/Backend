@@ -2,6 +2,24 @@ const express = require('express');
 
 const service = express();
 
+const express = require('express');
+
+const { authenticateUser } = require('../middleware');
+
+// הגנה על עדכון שירות
+service.put('/services/:id', authenticateUser, async (req, res) => {
+  // req.user מכיל את userId וכו'
+  const userIdFromAuth = req.user.userId;
+  // המשך הקוד כמו שכתבת
+});
+
+// הגנה על מחיקת שירות
+service.delete('/services/:id', authenticateUser, async (req, res) => {
+  const userIdFromAuth = req.user.userId;
+  // המשך הקוד...
+});
+
+
 service.use(express.json()); // Middleware לניתוח JSON
 const serviceModel = require("../models/service")
 
