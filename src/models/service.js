@@ -1,13 +1,11 @@
+const mongoose = require('mongoose');
 
+const serviceSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  title: { type: String, required: true },
+  description: String,
+  hoursRequired: { type: Number, required: true },
+  status: { type: String, enum: ['available', 'unavailable'], default: 'available' }
+});
 
-const mymongo = require("mongoose")
-
-const serviceSchema = mymongo.Schema({
-    _id:mymongo.Types.ObjectId,
-     description:string,
-     name:string
-})
-
-const serviceModel = mymongo.model("Service", serviceSchema, "services");
-
-module.exports = serviceModel
+module.exports = mongoose.model('Service', serviceSchema);
