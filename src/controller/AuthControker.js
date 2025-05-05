@@ -8,10 +8,10 @@ try{
     let isOk = await usermodel.create(newPassword)
     if (isOk) {
 
-        let ta = await usermodel.found({})
-            res.status(200).json(ta)
+    let ta = await usermodel.found({})
+    res.status(200).json(ta)
     }
-    else
+else
     res.status(500).send({error:"error"})
 }
 catch (error){
