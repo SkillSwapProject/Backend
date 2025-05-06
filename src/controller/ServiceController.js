@@ -1,10 +1,8 @@
 const express = require('express');
-
 const service = express();
-
-const express = require('express');
-
 const { authenticateUser } = require('../middleware');
+service.use(express.json()); // Middleware לניתוח JSON
+const serviceModel = require("../models/service")
 
 // הגנה על עדכון שירות
 service.put('/services/:id', authenticateUser, async (req, res) => {
@@ -19,12 +17,7 @@ service.delete('/services/:id', authenticateUser, async (req, res) => {
   // המשך הקוד...
 });
 
-
-service.use(express.json()); // Middleware לניתוח JSON
-const serviceModel = require("../models/service")
-
 //יצירת שירות חדשה
-
 service.postNew('/services', (req, res) => {
   const { name, description } = req.body;
   // בדיקת קלט
@@ -36,7 +29,6 @@ service.postNew('/services', (req, res) => {
     name,
     description,
   };
-
   services.push(newService);
   res.status(201).json(newService);
 });
@@ -51,7 +43,6 @@ service.getAll = async (req, res) => {
     res.status(500)
     res.send("<h1>error</h1>")
   }
-
 }
 
 //קבלת פרטי שירות לפי מזהה
@@ -65,6 +56,7 @@ service.getbyid = async (req, res) => {
     res.send("<h1>error</h1>")
   }
 }
+
 //עדכון שרות לפי שם
 service.updateservice = async (req, res) => {
   try {
@@ -97,32 +89,25 @@ service.updateservice = async (req, res) => {
 service.deleteservice = async (req, res) => {
   try {
     const service = await service.findOne({ id: req.params.id });
-
     if (!service) {
       return res.status(404).json({ message: 'Task not found' });
     }
-
     const userIdFromAuth = req.userId;
-
     // בדיקה שהמשתמש המנסה למחוק הוא בעל המשימה
     if (service.ownerId !== userIdFromAuth) {
       return res.status(403).json({ message: 'Unauthorized: You are not the owner of this task' });
     }
-
     const deleteservice = await service.findOneAndDelete({ code: req.params.code });
-
     if (!deleteservice) {
       return res.status(404).json({ message: 'Task not found' });
     }
-
     res.json({ message: 'Task deleted successfully' });
-  } catch (err) {
+  } 
+  catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Error deleting task' });
   }
 };
-
-
 
 service.get('/user', authenticateUser, (req, res) => {
   const user = users[req.userId];
@@ -132,4 +117,5 @@ service.get('/user', authenticateUser, (req, res) => {
     res.status(404).json({ message: 'User not found' });
   }
 });
+module.exports = service
 
